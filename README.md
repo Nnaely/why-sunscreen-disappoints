@@ -38,3 +38,28 @@ Temuan lain:
 - Harga hampir tidak berhubungan dengan rating produk (korelasi Spearman 0,13). Persentase pengulas yang merekomendasikan produk adalah 81,6% untuk produk di bawah $25, 84,0% untuk $25–50, 85,9% untuk $50–100, dan 83,9% untuk produk di atas $100.
 - Pada kulit berminyak, 41% ulasan negatif sunscreen mengeluhkan tekstur berminyak dan 19% mengeluhkan jerawat. Pada kulit kering, keluhan iritasi lebih tinggi (14%, dibanding 9% pada kulit berminyak).
 - Di antara sunscreen dengan sedikitnya 1.000 ulasan, proporsi ulasan negatif berkisar dari 1,3% (Shiseido Urban Environment Fresh-Moisture) sampai 33,3% (Drunk Elephant Umbra Sheer).
+
+## Rekomendasi
+
+Rekomendasi diurutkan menurut seberapa sering masalahnya muncul di data.
+
+1. Tekstur ringan dengan hasil akhir matte. Keluhan berminyak menempati urutan pertama di semua jenis kulit.
+2. Formula yang tidak meninggalkan white cast pada kulit sawo matang, diuji pada warna kulit konsumen Indonesia.
+3. Tidak menggumpal saat dilapisi skincare atau makeup.
+4. Klaim non-comedogenic yang didukung pengujian, karena jerawat adalah keluhan kedua terbanyak.
+5. Varian yang lebih lembut untuk kulit kering atau sensitif.
+
+Rekomendasi ini berasal dari data pasar Amerika Serikat. Sebelum dipakai untuk keputusan produk, pola yang sama perlu dicek pada ulasan e-commerce Indonesia.
+
+## Cara melihat hasil
+
+| File | Isi |
+|---|---|
+| `Portofolio_Ulasan_Skincare_Sephora.xlsx` | Dashboard Excel dengan filter jenis kulit, warna kulit, dan tahun. Mulai dari sheet Dashboard, lalu telusuri setiap angka ke sheet Analisis. |
+| `dashboard/index.html` | Versi web dari dashboard. Buka langsung di browser, tidak perlu internet. |
+| `notebooks/01_data_understanding_cleaning.ipynb` | Pemuatan data, pengecekan kualitas, dan pembersihan. |
+| `notebooks/02_eda.ipynb` | Analisis per harga, kategori, jenis kulit, tahun, dan brand. |
+| `notebooks/03_sunscreen_complaints.ipynb` | Deteksi tema keluhan sunscreen dan rekomendasi. |
+| `reports/figures/` | Sembilan grafik PNG dari notebook. |
+
+Di workbook Excel, sel kuning di sheet Dashboard adalah filter. Semua KPI, grafik, dan heatmap dihitung ulang dengan rumus SUMIFS setiap kali filter diganti.
