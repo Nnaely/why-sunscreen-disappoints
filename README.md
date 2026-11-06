@@ -127,3 +127,41 @@ sephora-skincare-analysis/
 │   └── recalc_excel.ps1      menghitung ulang rumus lewat Excel dan mencari sel error
 └── requirements.txt
 ```
+
+## Menjalankan ulang
+
+Proyek ini memakai Python 3.12. Folder `data/raw/` dan `data/processed/` tidak disertakan karena ukurannya besar.
+
+1. Unduh dataset dari Kaggle, lalu letakkan `product_info.csv` dan kelima file `reviews_*.csv` di `data/raw/`.
+2. Buat environment dan pasang library:
+
+   ```bash
+   uv venv --python 3.12 .venv
+   ```
+
+   ```bash
+   uv pip install --python .venv/Scripts/python.exe -r requirements.txt
+   ```
+
+3. Jalankan ketiga notebook secara berurutan. Notebook 01 membuat file di `data/processed/`.
+4. Bangun dashboard web dan workbook Excel:
+
+   ```bash
+   .venv/Scripts/python.exe src/build_dashboard.py
+   ```
+
+   ```bash
+   .venv/Scripts/python.exe src/build_excel.py
+   ```
+
+5. Hitung ulang rumus workbook. File yang ditulis Python belum berisi hasil rumus. Membuka workbook di Excel sudah cukup, atau jalankan perintah berikut di Windows yang memiliki Excel:
+
+   ```bash
+   powershell -ExecutionPolicy Bypass -File src/recalc_excel.ps1
+   ```
+
+## Tools
+
+Python (pandas, NumPy, Matplotlib, openpyxl), Jupyter, Microsoft Excel, dan HTML/JavaScript untuk dashboard web.
+
+Dibuat oleh Nakata sebagai portofolio data analyst.
