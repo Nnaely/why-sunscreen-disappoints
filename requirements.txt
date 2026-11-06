@@ -1,0 +1,7 @@
+# Python 3.12 (dibuat dengan: uv venv --python 3.12 .venv)
+pandas
+numpy
+pyarrow
+matplotlib
+openpyxl
+jupyter
