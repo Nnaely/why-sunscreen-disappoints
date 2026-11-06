@@ -677,7 +677,7 @@ def main():
     ws.conditional_formatting.add(f"F60:F{59 + len(cat_order)}",
                                   DataBarRule(start_type="num", start_value=0, end_type="num", end_value=0.2, color=TEAL, showValue=True))
     ws.conditional_formatting.add(f"B60:H{59 + len(cat_order)}",
-                                  FormulaRule(formula=['$B60="Sunscreen"'], fill=FILL("FDECE7"), font=Font(name="Arial", size=9, bold=True, color=NAVY)))
+                                  FormulaRule(formula=['$B60="Sunscreen"'], fill=FILL("FDECE7"), font=Font(bold=True)))
     put(f"B{60 + len(cat_order)}", "Diurutkan dari % negatif tertinggi. Sunscreen disorot.", merge_to=f"H{60 + len(cat_order)}", size=8, color=GREY_TXT, align=Alignment(indent=1))
 
     card("I57:Q73")
@@ -706,8 +706,8 @@ def main():
     section_bar(74, "PRODUK SUNSCREEN DENGAN KELUHAN TERTINGGI")
     card("B76:Q89")
     card_title("B76", "10 PRODUK DENGAN % ULASAN NEGATIF TERTINGGI (MIN. 500 ULASAN, SEMUA PERIODE)")
-    heads = [("B78", "C78", "Brand", "left"), ("D78", "I78", "Produk", "left"), ("J78", "J78", "Ulasan", "right"),
-             ("K78", "K78", "Rating", "right"), ("L78", "M78", "% negatif", "left"), ("N78", "N78", "% rekomendasi", "right"),
+    heads = [("B78", "C78", "Brand", "left"), ("D78", "H78", "Produk", "left"), ("I78", "I78", "Ulasan", "right"),
+             ("J78", "J78", "Rating", "right"), ("K78", "L78", "% negatif", "left"), ("M78", "N78", "% rekomendasi", "right"),
              ("O78", "Q78", "Keluhan utama", "left")]
     for a, b, t, al in heads:
         put(a, t, merge_to=(b if a != b else None), size=8, bold=True, color=INK2, align=Alignment(horizontal=al, indent=1 if al == "left" else 0))
@@ -716,13 +716,13 @@ def main():
     for i in range(10):
         rr, src = 79 + i, H0 + 1 + i
         put(f"B{rr}", f"=Produk_Sunscreen!A{src}", merge_to=f"C{rr}", size=9, bold=True, align=Alignment(indent=1))
-        put(f"D{rr}", f"=Produk_Sunscreen!B{src}", merge_to=f"I{rr}", size=9, color=INK2, align=Alignment(indent=1, shrink_to_fit=True))
-        put(f"J{rr}", f"=Produk_Sunscreen!C{src}", size=9, fmt=INT, align=Alignment(horizontal="right"))
-        put(f"K{rr}", f"=Produk_Sunscreen!H{src}", size=9, fmt=DEC2, align=Alignment(horizontal="right"))
-        put(f"L{rr}", f"=Produk_Sunscreen!I{src}", merge_to=f"M{rr}", size=9, bold=True, fmt=PCT)
-        put(f"N{rr}", f"=Produk_Sunscreen!J{src}", size=9, fmt=PCT, align=Alignment(horizontal="right"))
+        put(f"D{rr}", f"=Produk_Sunscreen!B{src}", merge_to=f"H{rr}", size=9, color=INK2, align=Alignment(indent=1, shrink_to_fit=True))
+        put(f"I{rr}", f"=Produk_Sunscreen!C{src}", size=9, fmt=INT, align=Alignment(horizontal="right"))
+        put(f"J{rr}", f"=Produk_Sunscreen!H{src}", size=9, fmt=DEC2, align=Alignment(horizontal="right"))
+        put(f"K{rr}", f"=Produk_Sunscreen!I{src}", merge_to=f"L{rr}", size=9, bold=True, fmt=PCT)
+        put(f"M{rr}", f"=Produk_Sunscreen!J{src}", merge_to=f"N{rr}", size=9, fmt=PCT, align=Alignment(horizontal="right"))
         put(f"O{rr}", f'=Produk_Sunscreen!K{src}&"  ("&FIXED(Produk_Sunscreen!L{src}*100,0)&"%)"', merge_to=f"Q{rr}", size=9, align=Alignment(indent=1))
-    ws.conditional_formatting.add("L79:L88", DataBarRule(start_type="num", start_value=0, end_type="num", end_value=0.45, color=ORANGE, showValue=True))
+    ws.conditional_formatting.add("K79:K88", DataBarRule(start_type="num", start_value=0, end_type="num", end_value=0.45, color=ORANGE, showValue=True))
     put("B89", "Daftar lengkap 20 produk ada di sheet Produk_Sunscreen. Rata-rata ulasan negatif sunscreen: 13,8%.",
         merge_to="Q89", size=8, color=GREY_TXT, align=Alignment(indent=1))
 
