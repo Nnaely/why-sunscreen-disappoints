@@ -63,3 +63,40 @@ Rekomendasi ini berasal dari data pasar Amerika Serikat. Sebelum dipakai untuk k
 | `reports/figures/` | Sembilan grafik PNG dari notebook. |
 
 Di workbook Excel, sel kuning di sheet Dashboard adalah filter. Semua KPI, grafik, dan heatmap dihitung ulang dengan rumus SUMIFS setiap kali filter diganti.
+
+## Data
+
+Sumber: [Sephora Products and Skincare Reviews](https://www.kaggle.com/datasets/nadyinky/sephora-products-and-skincare-reviews) di Kaggle, diunggah oleh nadyinky. Dataset terdiri dari satu file produk (8.494 produk) dan lima file ulasan (1.094.411 ulasan).
+
+Pengecekan awal menunjukkan bahwa semua ulasan berasal dari produk kategori Skincare, walaupun file produk juga berisi Makeup, Hair, Fragrance, dan kategori lain. Karena itu, analisis dibatasi pada 2.420 produk skincare dari 143 brand.
+
+Langkah pembersihan:
+
+- Lima file ulasan digabung. Tidak ditemukan baris duplikat, dan setiap ulasan punya pasangan di file produk.
+- 1.444 ulasan tanpa teks dibuang (0,1%). Data yang tersisa berisi 1.092.967 ulasan dari 502.564 pengulas, periode Agustus 2008 sampai Maret 2023.
+- Kolom harga diskon, harga nilai, dan deskripsi varian dibuang karena lebih dari 85% isinya kosong.
+- Jenis kulit dan warna kulit yang kosong diberi label "unknown" dan tetap dipakai. Membuangnya akan menghilangkan sekitar 10% ulasan.
+- Harga dikelompokkan menjadi empat: di bawah $25, $25–50, $50–100, dan di atas $100.
+
+Data 2023 hanya mencakup Januari sampai Maret, sehingga jumlah ulasan tahun itu tidak bisa dibandingkan dengan tahun penuh.
+
+## Metode
+
+### Metrik
+
+- Ulasan negatif: ulasan dengan rating 1 atau 2 bintang, dibagi seluruh ulasan pada kelompok yang sama.
+- Merekomendasikan: jawaban "ya" pada pertanyaan rekomendasi, dibagi pengulas yang menjawab. Pengulas yang tidak menjawab tidak dihitung. Pertanyaan ini baru muncul di data pada 2017 (sekitar separuh ulasan 2017 dan semua ulasan sejak 2018), jadi metrik ini hanya mewakili ulasan 2017 sampai 2023.
+- Setiap rasio dihitung dari total pembilang dibagi total penyebut, bukan dari rata-rata persentase antarkelompok.
+- Kategori dengan kurang dari 5.000 ulasan tidak dibandingkan. Yang terdampak hanya kategori "Shop by Concern" dengan 15 ulasan.
+
+### Deteksi tema keluhan
+
+Setiap tema keluhan punya daftar kata kunci. Tema berminyak, misalnya, mencakup "greasy", "oily", "sticky", dan "heavy". Sebuah ulasan dihitung mengeluhkan suatu tema jika kata kuncinya muncul tanpa didahului kata negasi seperti "no", "not", "doesn't", atau "without" dalam tiga sampai empat kata sebelumnya.
+
+Penanganan negasi diperlukan karena hitungan kata biasa memberi hasil yang terbalik. Frasa "white cast" muncul di 19% ulasan positif dan hanya 14% ulasan negatif, sebab pembeli yang puas sering menulis "no white cast".
+
+Hasil deteksi diperiksa dengan membaca sampel acak ulasan di setiap tema. Pemeriksaan itu menemukan salah tangkap pada frasa "oily skin", "dry skin", dan "acne-prone". Ketiganya menyebut jenis kulit pengulas, jadi pola kata kuncinya diubah agar frasa tersebut tidak lagi terhitung sebagai keluhan.
+
+### Kenapa data Excel diringkas
+
+Data ulasan berisi lebih dari 1 juta baris, melebihi batas Excel sebanyak 1.048.576 baris. Python meringkas ulasan menjadi 8.137 baris (kategori × kelompok harga × jenis kulit × warna kulit × tahun) dan 432 baris untuk tema keluhan sunscreen. Semua metrik berupa jumlah atau rasio jumlah, jadi hasilnya tetap sama dengan perhitungan di level ulasan. Sheet Kualitas di workbook mencocokkan total hasil ringkasan dengan angka dari Python.
