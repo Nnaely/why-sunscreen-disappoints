@@ -100,3 +100,30 @@ Hasil deteksi diperiksa dengan membaca sampel acak ulasan di setiap tema. Pemeri
 ### Kenapa data Excel diringkas
 
 Data ulasan berisi lebih dari 1 juta baris, melebihi batas Excel sebanyak 1.048.576 baris. Python meringkas ulasan menjadi 8.137 baris (kategori × kelompok harga × jenis kulit × warna kulit × tahun) dan 432 baris untuk tema keluhan sunscreen. Semua metrik berupa jumlah atau rasio jumlah, jadi hasilnya tetap sama dengan perhitungan di level ulasan. Sheet Kualitas di workbook mencocokkan total hasil ringkasan dengan angka dari Python.
+
+## Keterbatasan
+
+- Data berasal dari Sephora di Amerika Serikat. Konsumen, iklim, dan produk yang dijual berbeda dari pasar Indonesia.
+- Deteksi kata kunci masih bisa salah tangkap. Kalimat "I hate sunscreens that leave a white cast, but this one is great" tetap terhitung sebagai keluhan white cast. Membandingkan ulasan negatif dengan ulasan positif mengurangi dampaknya, karena kesalahan yang sama terjadi di kedua kelompok.
+- Orang yang menulis ulasan belum tentu mewakili semua pembeli. Pembeli yang sangat puas atau sangat kecewa cenderung lebih sering menulis ulasan.
+- Semua hubungan dalam analisis ini adalah korelasi. Data menunjukkan bahwa ulasan negatif lebih sering menyebut white cast, tetapi tidak membuktikan bahwa white cast adalah penyebab rating rendah.
+
+## Struktur folder
+
+```
+sephora-skincare-analysis/
+├── Portofolio_Ulasan_Skincare_Sephora.xlsx
+├── dashboard/
+│   ├── index.html            dashboard web (hasil build)
+│   └── template.html         tampilan dan logika dashboard web
+├── data/
+│   ├── raw/                  file CSV dari Kaggle (tidak disertakan)
+│   └── processed/            hasil pembersihan (Parquet)
+├── notebooks/                analisis langkah 1–3
+├── reports/figures/          grafik PNG
+├── src/
+│   ├── build_dashboard.py    membangun dashboard/index.html
+│   ├── build_excel.py        membangun workbook Excel
+│   └── recalc_excel.ps1      menghitung ulang rumus lewat Excel dan mencari sel error
+└── requirements.txt
+```
