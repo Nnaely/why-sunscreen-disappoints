@@ -4,6 +4,18 @@ Proyek ini menganalisis ulasan produk skincare di Sephora untuk menjawab dua per
 
 Hasil akhir tersedia dalam tiga bentuk: workbook Excel dengan dashboard berfilter, tiga notebook Python, dan dashboard HTML yang bisa dibuka tanpa internet.
 
+## Dashboard
+
+Dashboard utama ada di sheet Dashboard pada workbook Excel. Filter jenis kulit, warna kulit, dan tahun di bagian atas mengubah semua kartu, grafik, dan tabel.
+
+![Dashboard Excel: ringkasan, keluhan sunscreen, dan kategori](reports/screenshots/dashboard_excel_1.png)
+
+![Dashboard Excel: produk sunscreen dan temuan utama](reports/screenshots/dashboard_excel_2.png)
+
+Versi web di `dashboard/index.html` memuat analisis yang sama dan bisa dibuka langsung di browser.
+
+![Dashboard web](reports/screenshots/dashboard_web.png)
+
 ## Hasil utama
 
 Sunscreen adalah kategori besar dengan proporsi ulasan negatif tertinggi. Dari 41.100 ulasan sunscreen, 13,8% memberi rating 1–2 bintang, sedangkan rata-rata seluruh skincare 10,4%. Self Tanners (16,0%) dan High Tech Tools (15,0%) lebih tinggi, tetapi jumlah ulasannya hanya 12 ribu dan 6 ribu.
@@ -120,7 +132,9 @@ sephora-skincare-analysis/
 │   ├── raw/                  file CSV dari Kaggle (tidak disertakan)
 │   └── processed/            hasil pembersihan (Parquet)
 ├── notebooks/                analisis langkah 1–3
-├── reports/figures/          grafik PNG
+├── reports/
+│   ├── figures/              grafik PNG dari notebook
+│   └── screenshots/          tangkapan layar dashboard
 ├── src/
 │   ├── build_dashboard.py    membangun dashboard/index.html
 │   ├── build_excel.py        membangun workbook Excel
