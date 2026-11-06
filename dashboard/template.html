@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Analisis 1,09 juta ulasan skincare Sephora: kategori yang paling mengecewakan dan keluhan utama pembeli sunscreen.">
+<title>Kenapa pembeli sunscreen kecewa? · Analisis ulasan skincare Sephora</title>
+<style>
+:root{
+  --paper:#f6f7f9; --panel:#ffffff; --ink:#14213d; --ink-2:#4a5468; --ink-3:#7c8597;
+  --rule:#e1e4ea; --rule-soft:#eef0f3;
+  --data:#2a78d6; --data-deep:#1c5cab; --context:#c5cbd3; --context-deep:#7d8693;
+  --sun:#f2b544;
+  --tone-1:#f3d6bf; --tone-2:#d9a882; --tone-3:#b07a4f; --tone-4:#6b4428;
+  --display:"Segoe UI Variable Display","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --text:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:var(--text);font-size:15px;line-height:1.55;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+.page{max-width:1240px;margin:0 auto;padding:0 28px}
+:focus-visible{outline:2px solid var(--data);outline-offset:2px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+.mast b{color:var(--ink);font-weight:600}
+.mast nav{display:flex;gap:18px;flex-wrap:wrap}
+.mast nav a{color:var(--ink-2);text-decoration:none}
+.mast nav a:hover{color:var(--data)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;padding:48px 0 44px;align-items:center}
+.hero h1{font-family:var(--display);font-size:42px;line-height:1.12;font-weight:650;letter-spacing:-.015em;max-width:15em}
+.hero .lede{font-size:17px;color:var(--ink-2);margin-top:18px;max-width:34em}
+.facts{display:grid;grid-template-columns:repeat(3,auto);gap:28px;margin-top:30px;justify-content:start}
+.fact .v{display:inline-block;font-family:var(--display);font-size:30px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.1}
+.fact .l{font-size:13px;color:var(--ink-2);max-width:13em;margin-top:4px}
+.fact:first-child .v{box-shadow:inset 0 -6px 0 var(--sun)}
+.hero-viz{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:22px 24px 16px}
+.hero-viz h2{font-family:var(--display);font-size:16px;font-weight:600}
+.hero-viz p{font-size:13px;color:var(--ink-2);margin:2px 0 8px}
+.hero-viz .foot{font-size:12px;color:var(--ink-3);margin-top:6px}
+
+/* ---------- filter bar ---------- */
+.filterbar{position:sticky;top:0;z-index:5;background:rgba(246,247,249,.94);backdrop-filter:blur(6px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.filterbar .page{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding-top:10px;padding-bottom:10px}
+.filterbar .title{font-size:13px;font-weight:600;margin-right:4px}
+.filterbar label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.filterbar select{font:inherit;font-size:13.5px;color:var(--ink);padding:5px 28px 5px 10px;border:1px solid var(--rule);border-radius:4px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%234a5468' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;appearance:none;cursor:pointer}
+.filterbar select:hover{border-color:var(--ink-3)}
+.filterbar button{font:inherit;font-size:13px;padding:5px 12px;border:1px solid transparent;background:none;color:var(--data);cursor:pointer;border-radius:4px}
+.filterbar button:hover{background:#e8f0fb}
+.filterbar .state{margin-left:auto;font-size:12.5px;color:var(--ink-3)}
+
+/* ---------- KPI strip ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr) 1.25fr;background:var(--panel);border:1px solid var(--rule);border-radius:6px;margin:28px 0 8px}
+.kpi{padding:18px 22px;border-left:1px solid var(--rule-soft)}
+.kpi:first-child{border-left:0}
+.kpi .l{font-size:13px;color:var(--ink-2)}
+.kpi .v{font-family:var(--display);font-size:30px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:4px}
+.kpi .s{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+.kpi.focus{background:#eef4fc;border-left:3px solid var(--data);border-radius:0 6px 6px 0}
+.kpi.focus .v{color:var(--data-deep)}
+
+/* ---------- sections ---------- */
+section.block{padding:44px 0 8px}
+section.block > header{max-width:46em;margin-bottom:20px}
+section.block h2{font-family:var(--display);font-size:24px;font-weight:650;letter-spacing:-.01em;line-height:1.25}
+section.block > header p{color:var(--ink-2);margin-top:6px}
+.row{display:grid;gap:20px;margin-bottom:20px}
+.row.wide-narrow{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.row.halves{grid-template-columns:repeat(2,minmax(0,1fr))}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:20px 22px 16px;min-width:0}
+.panel h3{font-family:var(--display);font-size:16px;font-weight:600;line-height:1.3}
+.panel .sub{font-size:13px;color:var(--ink-2);margin:3px 0 12px}
+.panel .read{font-size:13.5px;color:var(--ink-2);border-top:1px solid var(--rule-soft);margin-top:10px;padding-top:10px}
+.panel .read b{color:var(--ink);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--ink-2);margin:8px 0 10px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--text)}
+.empty{padding:48px 12px;text-align:center;color:var(--ink-3);font-size:13.5px}
+details{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+details summary{cursor:pointer;width:max-content}
+details summary:hover{color:var(--data)}
+details table{margin-top:8px}
+
+/* ---------- tables ---------- */
+table.data{width:100%;border-collapse:collapse;font-size:13.5px}
+table.data th{text-align:left;font-size:12.5px;color:var(--ink-2);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--ink);white-space:nowrap}
+table.data td{padding:9px 10px;border-bottom:1px solid var(--rule-soft);font-variant-numeric:tabular-nums;vertical-align:middle}
+table.data .num{text-align:right}
+table.data tbody tr:hover td{background:#f8f9fb}
+table.sortable th{cursor:pointer;user-select:none}
+table.sortable th:hover{color:var(--data)}
+table.sortable th[aria-sort]{color:var(--ink)}
+.prod-name{color:var(--ink-3);font-size:12.5px;display:block;max-width:34em}
+.negbar{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.negbar span{display:inline-block;height:6px;border-radius:0 3px 3px 0;background:var(--context)}
+.negbar span.hi{background:var(--data)}
+.tag{display:inline-block;padding:1px 9px;border-radius:3px;font-size:12px;background:#eef1f5;color:var(--ink)}
+.tag + small{color:var(--ink-3);margin-left:4px}
+
+.heat{table-layout:fixed}.heat td,.heat th{padding:8px 4px}.heat td.cell{text-align:center;font-variant-numeric:tabular-nums;font-size:13px;border:2px solid #fff;border-radius:3px}
+.heat th{border-bottom:0;text-align:center;font-weight:600}
+.heat th small{display:block;font-weight:400;color:var(--ink-3)}
+.heat td:first-child,.heat th:first-child{width:38%;color:var(--ink-2);padding-right:10px;text-align:left}
+
+/* ---------- recommendations ---------- */
+.recs{list-style:none;counter-reset:r;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;border-top:1px solid var(--ink)}
+.recs li{counter-increment:r;padding:18px 20px 20px 0;border-bottom:1px solid var(--rule)}
+.recs li::before{content:counter(r);font-family:var(--display);font-size:28px;font-weight:650;color:var(--data);display:block;line-height:1;margin-bottom:10px}
+.recs h4{font-family:var(--display);font-size:16px;font-weight:600}
+.recs p{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+
+footer.foot{margin:52px 0 0;padding:22px 0 40px;border-top:1px solid var(--rule);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;font-size:13px;color:var(--ink-2)}
+footer.foot h4{font-size:13px;color:var(--ink);font-weight:600;margin-bottom:4px}
+
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:12.5px;padding:8px 10px;border-radius:4px;max-width:270px;opacity:0;z-index:20;line-height:1.4;box-shadow:0 4px 14px rgba(20,33,61,.18)}
+#tip b{font-weight:600}
+
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:32px;padding-top:32px}
+  .hero h1{font-size:34px}
+  .row.wide-narrow,.row.halves{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .kpi{border-left:0;border-top:1px solid var(--rule-soft)}
+  .kpi:nth-child(-n+2){border-top:0}
+  .kpi.focus{grid-column:1/-1;border-radius:0 0 6px 6px;border-left:3px solid var(--data)}
+  footer.foot{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .page{padding:0 16px}
+  .hero h1{font-size:28px}
+  .facts{grid-template-columns:1fr;gap:16px}
+  .mast nav{display:none}
+  .filterbar .state{margin-left:0;width:100%}
+  .panel{padding:16px 14px 12px}
+  .heat td,.heat th{padding:7px 2px;font-size:11.5px}
+  .heat td.cell{font-size:12px}
+  .heat td:first-child,.heat th:first-child{width:34%}
+}
+@media print{
+  body{background:#fff}.filterbar{position:static}.panel,.kpis{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="mast">
+    <div><b>Analisis Ulasan Skincare Sephora</b> &nbsp;<span style="color:var(--ink-3)">Portofolio data analyst oleh Nakata</span></div>
+    <nav aria-label="Bagian">
+      <a href="#kategori">Kategori</a><a href="#keluhan">Keluhan sunscreen</a><a href="#produk">Produk</a><a href="#rekomendasi">Rekomendasi</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h1>Sunscreen paling sering mengecewakan pembeli skincare, dan penyebabnya bukan SPF.</h1>
+      <p class="lede" id="hero-lede"></p>
+      <div class="facts" id="hero-facts"></div>
+    </div>
+    <figure class="hero-viz">
+      <h2>Keluhan white cast menurut warna kulit</h2>
+      <p>% ulasan negatif sunscreen yang menyebut white cast</p>
+      <div id="hero-chart"></div>
+      <figcaption class="foot" id="hero-foot"></figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="filterbar" role="group" aria-label="Filter data">
+  <div class="page">
+    <span class="title">Saring data</span>
+    <label>Jenis kulit <select id="f-skin"></select></label>
+    <label>Warna kulit <select id="f-tone"></select></label>
+    <label>Tahun <select id="f-y0" aria-label="Tahun awal"></select> sampai <select id="f-y1" aria-label="Tahun akhir"></select></label>
+    <button id="f-reset" type="button">Reset filter</button>
+    <span class="state" id="f-note" aria-live="polite"></span>
+  </div>
+</div>
+
+<main class="page">
+  <div class="kpis" id="kpis"></div>
+
+  <section class="block" id="kategori">
+    <header>
+      <h2>Di kategori mana pelanggan paling sering kecewa?</h2>
+      <p>Ukuran utama: persentase ulasan dengan rating 1–2 bintang. Kategori dengan kurang dari 200 ulasan pada filter aktif tidak ditampilkan.</p>
+    </header>
+    <div class="row wide-narrow">
+      <div class="panel">
+        <h3>Ulasan negatif per kategori</h3>
+        <div class="sub">Garis putus-putus menunjukkan rata-rata semua kategori.</div>
+        <div id="c-cat"></div>
+        <div class="read" id="i-cat"></div>
+      </div>
+      <div class="panel">
+        <h3>Apakah produk mahal lebih memuaskan?</h3>
+        <div class="sub">Persentase pengulas yang merekomendasikan produk. Sumbu dimulai dari 70%.</div>
+        <div id="c-price"></div>
+        <div class="read" id="i-price"></div>
+      </div>
+    </div>
+    <div class="row halves">
+      <div class="panel">
+        <h3>Jumlah ulasan per tahun</h3>
+        <div class="sub">Data 2023 hanya Januari–Maret, ditandai abu-abu.</div>
+        <div id="c-vol"></div>
+      </div>
+      <div class="panel">
+        <h3>Ulasan negatif per tahun</h3>
+        <div class="sub">Hanya tahun dengan sedikitnya 100 ulasan.</div>
+        <div id="c-trend"></div>
+        <div class="read" id="i-trend"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="keluhan">
+    <header>
+      <h2>Apa yang dikeluhkan pembeli sunscreen?</h2>
+      <p>Tema dideteksi dari teks ulasan dengan kata kunci. Sebutan yang didahului negasi seperti “no white cast” tidak dihitung sebagai keluhan. Lift adalah perbandingan antara ulasan negatif dan positif: makin tinggi, makin khas sebagai penyebab kecewa.</p>
+    </header>
+    <div class="row halves">
+      <div class="panel">
+        <h3>Keluhan di ulasan negatif dibanding ulasan positif</h3>
+        <div class="legend"><span><i style="background:var(--data)"></i>Ulasan negatif (1–2 bintang)</span><span><i style="background:var(--context-deep)"></i>Ulasan positif (4–5 bintang)</span></div>
+        <div id="c-theme"></div>
+        <div class="read" id="i-theme"></div>
+      </div>
+      <div class="panel">
+        <h3>Keluhan per jenis kulit</h3>
+        <div class="sub">% ulasan negatif sunscreen pada tiap jenis kulit. Makin gelap, makin sering dikeluhkan.</div>
+        <div id="c-heat" style="overflow-x:auto"></div>
+        <div class="read" id="i-heat"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="produk">
+    <header>
+      <h2>Sunscreen mana yang paling banyak dikeluhkan?</h2>
+      <p>Produk dengan sedikitnya 500 ulasan, seluruh periode (tidak terpengaruh filter). Klik judul kolom untuk mengurutkan.</p>
+    </header>
+    <div class="panel" style="overflow-x:auto"><table class="data sortable" id="t-prod"></table></div>
+  </section>
+
+  <section class="block" id="rekomendasi">
+    <header>
+      <h2>Rekomendasi untuk brand sunscreen lokal</h2>
+      <p>Diurutkan menurut seberapa sering masalahnya muncul. Contoh penerapan: lini sunscreen Wardah atau Emina.</p>
+    </header>
+    <ol class="recs">
+      <li><h4>Tekstur ringan dan matte</h4><p>Berminyak atau berat adalah keluhan nomor satu di semua jenis kulit, dan tertinggi pada kulit berminyak.</p></li>
+      <li><h4>Tanpa white cast di kulit sawo matang</h4><p>Keluhan white cast pada kulit sawo matang dua kali lipat kulit terang. Uji formula pada warna kulit lokal.</p></li>
+      <li><h4>Tidak menggumpal di bawah makeup</h4><p>Pilling paling khas ulasan negatif. Jarang muncul di ulasan positif, tetapi langsung membuat pembeli kecewa.</p></li>
+      <li><h4>Non-comedogenic yang teruji</h4><p>Jerawat adalah keluhan kedua terbesar, terutama dari pemilik kulit berminyak.</p></li>
+      <li><h4>Varian lembut untuk kulit kering</h4><p>Kulit kering lebih sering mengeluh perih dan iritasi dibanding jenis kulit lain.</p></li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <div><h4>Sumber data</h4>Kaggle, “Sephora Products and Skincare Reviews” (nadyinky): 2.420 produk skincare dan 1,09 juta ulasan, Agustus 2008 sampai Maret 2023.</div>
+    <div><h4>Metode</h4>Python (pandas) untuk pembersihan dan agregasi. Tema keluhan dideteksi dengan kata kunci dan penanganan negasi, lalu divalidasi dengan membaca sampel ulasan. Detail di notebook 01–03.</div>
+    <div><h4>Keterbatasan</h4>Data pasar Amerika Serikat, bukan Indonesia. Deteksi kata kunci masih bisa salah tangkap. Pengulas tidak mewakili semua pembeli. Hubungan yang terlihat adalah korelasi, bukan sebab-akibat.</div>
+  </footer>
+</main>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const D = /*__DATA__*/null;
+const C = {data:"#2a78d6", context:"#c5cbd3", contextDeep:"#7d8693", ink:"#14213d", ink2:"#4a5468", ink3:"#7c8597", rule:"#eef0f3", panel:"#ffffff"};
+const TONE_SWATCH = ["#f3d6bf","#d9a882","#b07a4f","#6b4428"];
+const SKIN_LABEL = {combination:"Kombinasi", dry:"Kering", normal:"Normal", oily:"Berminyak", unknown:"Tidak diketahui"};
+const MIN_N = 200;
+const dec = (v, d) => v.toFixed(d).replace(".", ",");
+const pct = (v, d=1) => dec(v*100, d) + "%";
+const num = v => v.toLocaleString("id-ID");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $ = id => document.getElementById(id);
+
+/* ---------- filter ---------- */
+function fillSelect(el, opts, val){ el.innerHTML = opts.map(([v,l]) => `<option value="${v}">${esc(l)}</option>`).join(""); el.value = val; }
+fillSelect($("f-skin"), [["all","Semua"], ...D.skins.map((s,i)=>[i, SKIN_LABEL[s]])], "all");
+fillSelect($("f-tone"), [["all","Semua"], ...D.tones.map((t,i)=>[i,t])], "all");
+const Y0 = D.years[0], Y1 = D.years[D.years.length-1];
+fillSelect($("f-y0"), D.years.map(y=>[y,y]), Y0);
+fillSelect($("f-y1"), D.years.map(y=>[y,y]), Y1);
+function state(){
+  let y0 = +$("f-y0").value, y1 = +$("f-y1").value;
+  if (y0 > y1){ [y0,y1] = [y1,y0]; $("f-y0").value = y0; $("f-y1").value = y1; }
+  const sk = $("f-skin").value, tn = $("f-tone").value;
+  return {skin: sk==="all"?null:+sk, tone: tn==="all"?null:+tn, y0, y1};
+}
+["f-skin","f-tone","f-y0","f-y1"].forEach(id => $(id).addEventListener("change", render));
+$("f-reset").addEventListener("click", () => { $("f-skin").value="all"; $("f-tone").value="all"; $("f-y0").value=Y0; $("f-y1").value=Y1; render(); });
+
+/* ---------- tooltip ---------- */
+const tip = $("tip");
+document.addEventListener("mousemove", e => {
+  const t = e.target.closest && e.target.closest("[data-tip]");
+  if (!t){ tip.style.opacity = 0; return; }
+  tip.innerHTML = t.getAttribute("data-tip");
+  const x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 10);
+  const y = e.clientY + 16 + tip.offsetHeight > window.innerHeight ? e.clientY - tip.offsetHeight - 10 : e.clientY + 16;
+  tip.style.left = x + "px"; tip.style.top = y + "px"; tip.style.opacity = 1;
+});
+
+/* ---------- SVG helpers ---------- */
+const svg = (w, h, inner, label) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(label||"")}">${inner}</svg>`;
+function text(x, y, s, o={}){
+  return `<text x="${x}" y="${y}" font-size="${o.size||12}" fill="${o.fill||C.ink2}" text-anchor="${o.anchor||"start"}"${o.weight?` font-weight="${o.weight}"`:""}${o.halo?` paint-order="stroke" stroke="${C.panel}" stroke-width="4" stroke-linejoin="round"`:""} dominant-baseline="middle">${esc(s)}</text>`;
+}
+function ticks(min, max, step){ const t=[]; for(let v=min; v<=max+1e-9; v+=step) t.push(+v.toFixed(6)); return t; }
+function hbarPath(x0, y, w, h){ const r=Math.min(4, w, h/2); return `M${x0},${y}h${Math.max(w-r,0)}a${r},${r} 0 0 1 ${r},${r}v${h-2*r}a${r},${r} 0 0 1 -${r},${r}h-${Math.max(w-r,0)}z`; }
+function vbarPath(x, y0, w, h){ const r=Math.min(4, w/2, h); return `M${x},${y0}v-${Math.max(h-r,0)}a${r},${r} 0 0 1 ${r},-${r}h${w-2*r}a${r},${r} 0 0 1 ${r},${r}v${Math.max(h-r,0)}z`; }
+const widthOf = id => Math.max(300, Math.round($(id).clientWidth || 560));
+const EMPTY = msg => `<div class="empty">${msg||"Data terlalu sedikit untuk filter ini. Coba longgarkan filter atau tekan Reset filter."}</div>`;
+
+function hbarChart(items, o){
+  if (!items.length) return EMPTY();
+  const W=o.W||620, labW=W<440?112:150, valW=54, rowH=27, top=6, bottom=24, H=top+items.length*rowH+bottom;
+  const x0=labW, x1=W-valW, sx=v=>x0+(v/o.max)*(x1-x0);
+  let g="";
+  ticks(0, o.max, o.step).forEach(t => g += `<line x1="${sx(t)}" x2="${sx(t)}" y1="${top}" y2="${H-bottom}" stroke="${C.rule}"/>` + text(sx(t), H-bottom+13, o.tick(t), {anchor:"middle", size:11, fill:C.ink3}));
+  items.forEach((d,i) => {
+    const y=top+i*rowH+6, h=rowH-12;
+    g += text(labW-10, y+h/2, d.label, {anchor:"end", fill:d.hi?C.ink:C.ink2, weight:d.hi?600:null});
+    g += `<path d="${hbarPath(x0, y, Math.max(sx(d.value)-x0, 1), h)}" fill="${d.hi?C.data:C.context}"/>`;
+    g += `<rect x="0" y="${y-6}" width="${W}" height="${rowH}" fill="transparent" data-tip="${esc(d.tip)}"/>`;
+  });
+  if (o.ref != null) g += `<line x1="${sx(o.ref)}" x2="${sx(o.ref)}" y1="${top-2}" y2="${H-bottom}" stroke="${C.ink2}" stroke-dasharray="3 3"/>`;
+  items.forEach((d,i) => { const y=top+i*rowH+6, h=rowH-12; g += text(sx(d.value)+6, y+h/2, o.fmt(d.value), {size:11.5, halo:true, fill:d.hi?C.ink:C.ink2, weight:d.hi?600:null}); });
+  return svg(W, H, g, o.label);
+}
+
+function vbarChart(items, o){
+  if (!items.length) return EMPTY();
+  const W=o.W||560, H=o.H||230, left=44, right=6, top=22, bottom=o.bottom||40;
+  const min=o.min||0, max=o.max, band=(W-left-right)/items.length, bw=Math.min(band*0.6, o.maxBar||64);
+  const sy=v=>top+(1-(v-min)/(max-min))*(H-top-bottom);
+  let g="";
+  ticks(min, max, o.step).forEach(t => g += `<line x1="${left}" x2="${W-right}" y1="${sy(t)}" y2="${sy(t)}" stroke="${C.rule}"/>` + text(left-8, sy(t), o.tick(t), {anchor:"end", size:11, fill:C.ink3}));
+  items.forEach((d,i) => {
+    const cx=left+band*i+band/2, h=Math.max(sy(min)-sy(Math.max(d.value,min)), 1);
+    g += `<path d="${vbarPath(cx-bw/2, sy(min), bw, h)}" fill="${d.color||(d.hi?C.data:C.context)}"${d.stroke?` stroke="${d.stroke}" stroke-width="1"`:""}/>`;
+    g += `<rect x="${cx-band/2}" y="${top}" width="${band}" height="${H-top-bottom}" fill="transparent" data-tip="${esc(d.tip)}"/>`;
+    if (o.labels !== false) g += text(cx, sy(Math.max(d.value,min))-10, o.fmt(d.value), {anchor:"middle", size:o.valSize||12, fill:C.ink, weight:600});
+    String(d.label).split("\n").forEach((ln,k) => g += text(cx, H-bottom+14+k*14, ln, {anchor:"middle", size:k?10.5:12, fill:k?C.ink3:C.ink2}));
+  });
+  return svg(W, H, g, o.label);
+}
+
+function lineChart(points, o){
+  if (points.length < 2) return EMPTY();
+  const W=o.W||560, H=230, left=44, right=12, top=16, bottom=30;
+  const xs=points.map(p=>p.x), xmin=Math.min(...xs), xmax=Math.max(...xs);
+  const sx=x=>left+(x-xmin)/((xmax-xmin)||1)*(W-left-right), sy=v=>top+(1-v/o.max)*(H-top-bottom);
+  let g="";
+  ticks(0, o.max, o.step).forEach(t => g += `<line x1="${left}" x2="${W-right}" y1="${sy(t)}" y2="${sy(t)}" stroke="${C.rule}"/>` + text(left-8, sy(t), o.tick(t), {anchor:"end", size:11, fill:C.ink3}));
+  points.forEach(p => g += text(sx(p.x), H-bottom+14, "’"+String(p.x).slice(2), {anchor:"middle", size:10.5, fill:C.ink3}));
+  g += `<path d="M${points.map(p=>`${sx(p.x)},${sy(p.y)}`).join("L")}" fill="none" stroke="${C.data}" stroke-width="2" stroke-linejoin="round"/>`;
+  const bw=(W-left-right)/Math.max(points.length-1,1);
+  points.forEach(p => {
+    g += `<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="4" fill="${C.data}" stroke="${C.panel}" stroke-width="2"/>`;
+    g += `<rect x="${sx(p.x)-bw/2}" y="${top}" width="${bw}" height="${H-top-bottom}" fill="transparent" data-tip="${esc(p.tip)}"/>`;
+  });
+  return svg(W, H, g, o.label);
+}
+
+function dumbbell(rows, o){
+  if (!rows.length) return EMPTY("Ulasan negatif sunscreen kurang dari 50 pada filter ini. Coba longgarkan filter.");
+  const W=o.W||620, labW=W<440?128:170, valW=W<440?84:104, rowH=28, top=4, bottom=24, H=top+rows.length*rowH+bottom;
+  const x0=labW, x1=W-valW, sx=v=>x0+(v/o.max)*(x1-x0);
+  let g="";
+  ticks(0, o.max, 0.1).forEach(t => g += `<line x1="${sx(t)}" x2="${sx(t)}" y1="${top}" y2="${H-bottom}" stroke="${C.rule}"/>` + text(sx(t), H-bottom+13, pct(t,0), {anchor:"middle", size:11, fill:C.ink3}));
+  rows.forEach((d,i) => {
+    const cy=top+i*rowH+rowH/2, a=sx(Math.min(d.neg,d.pos)), b=sx(Math.max(d.neg,d.pos));
+    g += text(labW-10, cy, d.label, {anchor:"end", fill: i===0?C.ink:C.ink2, weight: i===0?600:null});
+    g += `<line x1="${a}" x2="${b}" y1="${cy}" y2="${cy}" stroke="${C.context}" stroke-width="2"/>`;
+    g += `<circle cx="${sx(d.pos)}" cy="${cy}" r="5" fill="${C.contextDeep}" stroke="${C.panel}" stroke-width="2"/>`;
+    g += `<circle cx="${sx(d.neg)}" cy="${cy}" r="5.5" fill="${C.data}" stroke="${C.panel}" stroke-width="2"/>`;
+    g += `<rect x="0" y="${cy-rowH/2}" width="${W}" height="${rowH}" fill="transparent" data-tip="${esc(d.tip)}"/>`;
+    g += text(b+10, cy, `${pct(d.neg,0)}   lift ${d.liftTxt}`, {size:11.5, halo:true});
+  });
+  return svg(W, H, g, o.label);
+}
+
+function dataTable(headers, rows){
+  return `<details><summary>Lihat tabel data</summary><table class="data"><thead><tr>${headers.map((h,i)=>`<th class="${i?"num":""}">${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td class="${i?"num":""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></details>`;
+}
+
+/* ---------- agregasi ---------- */
+// cube: [cat, price, skin, tone, year, n, rating_sum, neg, rec_yes, rec_n]
+const inCube = (r, s, ignoreTone) => (s.skin==null||r[2]===s.skin) && (ignoreTone||s.tone==null||r[3]===s.tone) && r[4]>=s.y0 && r[4]<=s.y1;
+function agg(rows, keyIdx, size){
+  const out = Array.from({length:size}, () => ({n:0, rs:0, neg:0, ry:0, rn:0}));
+  rows.forEach(r => { const o=out[keyIdx==null?0:r[keyIdx]]; o.n+=r[5]; o.rs+=r[6]; o.neg+=r[7]; o.ry+=r[8]; o.rn+=r[9]; });
+  return out;
+}
+// sun: [grp(0 neg,1 pos), skin, tone, year, n, theme...]
+const inSun = (r, s, o={}) => (o.ignoreSkin||s.skin==null||r[1]===s.skin) && (o.ignoreTone||s.tone==null||r[2]===s.tone) && r[3]>=s.y0 && r[3]<=s.y1;
+function sumSun(rows){ const k=D.themes.length, out={n:0, t:new Array(k).fill(0)}; rows.forEach(r => { out.n+=r[4]; for(let i=0;i<k;i++) out.t[i]+=r[5+i]; }); return out; }
+
+const SUN = D.categories.indexOf("Sunscreen"), WC = D.themes.indexOf("White cast");
+const BASE = (() => { const t=agg(D.cube, null, 1)[0], sn=agg(D.cube, 0, D.categories.length)[SUN]; return {n:t.n, rating:t.rs/t.n, neg:t.neg/t.n, rec:t.ry/t.rn, sunNeg:sn.neg/sn.n, sunN:sn.n}; })();
+
+/* ---------- hero (seluruh data, statis) ---------- */
+function renderHero(){
+  const all = {skin:null, tone:null, y0:Y0, y1:Y1};
+  const negAll = sumSun(D.sun.filter(r => r[0]===0));
+  const posAll = sumSun(D.sun.filter(r => r[0]===1));
+  const themes = D.themes.map((t,i)=>({t, neg:negAll.t[i]/negAll.n, lift:(negAll.t[i]/negAll.n)/(posAll.t[i]/posAll.n)})).sort((a,b)=>b.neg-a.neg);
+  const oneIn = Math.round(1/BASE.sunNeg);
+  $("hero-lede").innerHTML = `Dari ${num(BASE.sunN)} ulasan sunscreen di Sephora, 1 dari ${oneIn} memberi rating 1–2 bintang. Yang dikeluhkan adalah pengalaman memakainya: tekstur berminyak, menggumpal di bawah makeup, dan white cast yang makin terlihat pada kulit lebih gelap.`;
+  const tones = D.tones.slice(0,4).map((t,ti) => { const o=sumSun(D.sun.filter(r => r[0]===0 && r[2]===ti)); return {t, ti, n:o.n, v:o.t[WC]/o.n}; });
+  const tan = tones[2], light = tones[0];
+  $("hero-facts").innerHTML = [
+    [pct(BASE.sunNeg), `ulasan sunscreen negatif, rata-rata skincare ${pct(BASE.neg)}`],
+    [pct(themes[0].neg,0), `ulasan negatif mengeluhkan sunscreen yang berminyak atau berat`],
+    [dec(tan.v/light.v,1)+"×", `lebih sering keluhan white cast pada kulit sawo matang dibanding kulit terang`],
+  ].map(([v,l]) => `<div class="fact"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  const items = tones.map((o,i) => ({label:`${o.t}\nn = ${num(o.n)}`, value:o.v, color:TONE_SWATCH[i], stroke:"rgba(20,33,61,.28)",
+    tip:`<b>Kulit ${esc(o.t)}</b><br>${pct(o.v)} ulasan negatif menyebut white cast<br>${num(Math.round(o.v*o.n))} dari ${num(o.n)} ulasan${o.n<200?"<br>Jumlah ulasan kecil, angka kurang stabil":""}`}));
+  $("hero-chart").innerHTML = vbarChart(items, {W:widthOf("hero-chart"), H:250, max:0.45, step:0.1, tick:v=>pct(v,0), fmt:v=>pct(v,0), valSize:15, bottom:44, maxBar:78, label:"Keluhan white cast menurut warna kulit"});
+  $("hero-foot").textContent = `Warna batang mewakili kelompok warna kulit pengulas. Kelompok gelap hanya ${num(tones[3].n)} ulasan, jadi angkanya kurang stabil.`;
+}
+
+/* ---------- render (ikut filter) ---------- */
+function render(){
+  const s = state();
+  const parts = [];
+  if (s.skin!=null) parts.push("kulit " + SKIN_LABEL[D.skins[s.skin]].toLowerCase());
+  if (s.tone!=null) parts.push("warna kulit " + D.tones[s.tone].toLowerCase());
+  if (s.y0!==Y0 || s.y1!==Y1) parts.push(s.y0===s.y1 ? `tahun ${s.y0}` : `${s.y0} sampai ${s.y1}`);
+  $("f-note").textContent = parts.length ? "Menampilkan " + parts.join(", ") : "Menampilkan semua ulasan";
+
+  const rows = D.cube.filter(r => inCube(r, s));
+  const tot = agg(rows, null, 1)[0];
+  const byCat = agg(rows, 0, D.categories.length);
+  const sunT = byCat[SUN];
+  const filtered = parts.length > 0;
+  const cmp = (now, base, f) => filtered ? `semua data ${f(base)}` : "";
+
+  // KPI
+  const kpi = (l, v, sub, focus) => `<div class="kpi${focus?" focus":""}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub||"&nbsp;"}</div></div>`;
+  $("kpis").innerHTML = tot.n === 0 ? `<div class="kpi" style="grid-column:1/-1"><div class="l">Tidak ada ulasan untuk kombinasi filter ini. Tekan Reset filter.</div></div>` : [
+    kpi("Ulasan dianalisis", num(tot.n), filtered ? `dari ${num(BASE.n)} ulasan` : "12 kategori skincare"),
+    kpi("Rating rata-rata", dec(tot.rs/tot.n, 2), cmp(0, BASE.rating, v=>dec(v,2)) || "skala 1–5"),
+    kpi("Ulasan negatif", pct(tot.neg/tot.n), cmp(0, BASE.neg, pct) || "rating 1–2 bintang"),
+    kpi("Merekomendasikan", tot.rn ? pct(tot.ry/tot.rn) : "–", cmp(0, BASE.rec, pct) || "pengulas yang menjawab ya"),
+    kpi("Ulasan negatif sunscreen", sunT.n ? pct(sunT.neg/sunT.n) : "–", sunT.n ? `${dec((sunT.neg/sunT.n)/(tot.neg/tot.n),1)}× rata-rata, dari ${num(sunT.n)} ulasan` : "tidak ada ulasan sunscreen", true),
+  ].join("");
+
+  // Kategori
+  const avgNeg = tot.n ? tot.neg/tot.n : 0;
+  const cats = byCat.map((o,i)=>({i,...o})).filter(o => o.n >= MIN_N).sort((a,b) => b.neg/b.n - a.neg/a.n);
+  const cmax = Math.ceil(Math.max(0.2, ...cats.map(o=>o.neg/o.n))*1.05*20)/20;
+  $("c-cat").innerHTML = hbarChart(cats.map(o => ({label:D.categories[o.i], value:o.neg/o.n, hi:o.i===SUN,
+      tip:`<b>${esc(D.categories[o.i])}</b><br>${pct(o.neg/o.n)} ulasan negatif<br>${num(o.neg)} dari ${num(o.n)} ulasan<br>Rating rata-rata ${dec(o.rs/o.n,2)}`})),
+    {W:widthOf("c-cat"), max:cmax, step:0.05, tick:v=>pct(v,0), fmt:v=>pct(v), ref:avgNeg, label:"Ulasan negatif per kategori"})
+    + dataTable(["Kategori","Ulasan negatif","Jumlah ulasan"], cats.map(o=>[D.categories[o.i], pct(o.neg/o.n), num(o.n)]));
+  const rank = cats.findIndex(o => o.i===SUN);
+  const bigRank = cats.filter(o => o.n >= 0.03*tot.n).findIndex(o => o.i===SUN);
+  const above = rank > 0 ? cats.slice(0, rank) : [];
+  const aboveSmaller = above.length && above.every(o => o.n < sunT.n);
+  $("i-cat").innerHTML = rank < 0 ? "Ulasan sunscreen terlalu sedikit pada filter ini." :
+    `Sunscreen berada di urutan <b>${rank+1} dari ${cats.length}</b> kategori (${pct(sunT.neg/sunT.n)} vs rata-rata ${pct(avgNeg)})` +
+    (bigRank===0 && rank>0 ? `, dan <b>tertinggi di antara kategori besar</b> (minimal 3% dari semua ulasan)` : "") + "." +
+    (aboveSmaller ? ` Kategori di atasnya punya ulasan jauh lebih sedikit.` : "");
+
+  // Harga
+  const byPrice = agg(rows, 1, D.priceBands.length).map((o,i)=>({i,...o})).filter(o => o.rn >= MIN_N);
+  const best = byPrice.reduce((a,b) => (!a || b.ry/b.rn > a.ry/a.rn) ? b : a, null);
+  $("c-price").innerHTML = vbarChart(byPrice.map(o => ({label:`${D.priceBands[o.i]}\nn = ${num(o.n)}`, value:o.ry/o.rn, hi:best && o.i===best.i,
+      tip:`<b>${esc(D.priceBands[o.i])}</b><br>${pct(o.ry/o.rn)} merekomendasikan<br>${num(o.ry)} dari ${num(o.rn)} jawaban<br>${pct(o.neg/o.n)} ulasan negatif`})),
+    {W:widthOf("c-price"), H:250, min:0.7, max:0.95, step:0.05, tick:v=>pct(v,0), fmt:v=>pct(v), bottom:44, label:"Rekomendasi per kelompok harga"})
+    + dataTable(["Kelompok harga","Merekomendasikan","Jumlah ulasan"], byPrice.map(o=>[D.priceBands[o.i], pct(o.ry/o.rn), num(o.n)]));
+  if (byPrice.length >= 2){
+    const vals = byPrice.map(o=>o.ry/o.rn), spread = Math.max(...vals) - Math.min(...vals);
+    $("i-price").innerHTML = `Tertinggi di <b>${esc(D.priceBands[best.i])}</b> (${pct(best.ry/best.rn)}). Selisih antar-kelompok harga hanya <b>${dec(spread*100,1)} poin</b>, jadi harga bukan penentu utama kepuasan.`;
+  } else $("i-price").textContent = "";
+
+  // Tahun
+  const yrs = D.years.filter(y => y>=s.y0 && y<=s.y1), byYear = {};
+  yrs.forEach(y => byYear[y] = {n:0, neg:0});
+  rows.forEach(r => { byYear[r[4]].n += r[5]; byYear[r[4]].neg += r[7]; });
+  const vmax = Math.max(...yrs.map(y=>byYear[y].n), 1);
+  const step = [50000,20000,10000,5000,2000,1000,500,200,100,50,20,10].find(st => vmax/st >= 3) || 5;
+  $("c-vol").innerHTML = vbarChart(yrs.map(y => ({label:"’"+String(y).slice(2), value:byYear[y].n, color:y===2023?C.context:C.data,
+      tip:`<b>${y}</b>${y===2023?" (Januari–Maret)":""}<br>${num(byYear[y].n)} ulasan`})),
+    {W:widthOf("c-vol"), max:Math.ceil(vmax/step)*step, step, labels:false, tick:v=>v>=1000?`${num(v/1000)} rb`:String(v), bottom:26, label:"Jumlah ulasan per tahun"})
+    + dataTable(["Tahun","Jumlah ulasan"], yrs.map(y=>[y, num(byYear[y].n)]));
+  const pts = yrs.filter(y => byYear[y].n >= 100).map(y => ({x:y, y:byYear[y].neg/byYear[y].n,
+    tip:`<b>${y}</b>${y===2023?" (Januari–Maret)":""}<br>${pct(byYear[y].neg/byYear[y].n)} ulasan negatif<br>dari ${num(byYear[y].n)} ulasan`}));
+  $("c-trend").innerHTML = lineChart(pts, {W:widthOf("c-trend"), max:Math.ceil(Math.max(0.15, ...pts.map(p=>p.y))*1.1*20)/20, step:0.05, tick:v=>pct(v,0), label:"Ulasan negatif per tahun"})
+    + dataTable(["Tahun","Ulasan negatif","Jumlah ulasan"], pts.map(p=>[p.x, pct(p.y), num(byYear[p.x].n)]));
+  if (pts.length >= 2){
+    const hi = pts.reduce((a,b)=>b.y>a.y?b:a), lo = pts.reduce((a,b)=>b.y<a.y?b:a);
+    $("i-trend").innerHTML = `Tertinggi di <b>${hi.x}</b> (${pct(hi.y)}), terendah di <b>${lo.x}</b> (${pct(lo.y)}).` +
+      (Math.min(...pts.map(p=>byYear[p.x].n)) < 1000 ? ` Sebagian tahun punya kurang dari 1.000 ulasan, jadi naik-turunnya bisa kebetulan.` : "");
+  } else $("i-trend").textContent = "";
+
+  // Sunscreen: tema
+  const sr = D.sun.filter(r => inSun(r, s));
+  const negS = sumSun(sr.filter(r=>r[0]===0)), posS = sumSun(sr.filter(r=>r[0]===1));
+  let th = [];
+  if (negS.n >= 50 && posS.n > 0){
+    th = D.themes.map((t,i) => {
+      const neg=negS.t[i]/negS.n, pos=posS.t[i]/posS.n, lift = pos>0 ? neg/pos : null;
+      return {label:t, neg, pos, lift, liftTxt: lift==null ? "–" : dec(lift,1)+"×",
+        tip:`<b>${esc(t)}</b><br>Ulasan negatif: ${pct(neg)} (${num(negS.t[i])} dari ${num(negS.n)})<br>Ulasan positif: ${pct(pos)} (${num(posS.t[i])} dari ${num(posS.n)})`};
+    }).sort((a,b) => b.neg-a.neg);
+  }
+  $("c-theme").innerHTML = dumbbell(th, {W:widthOf("c-theme"), max:Math.ceil(Math.max(0.3, ...th.map(d=>Math.max(d.neg,d.pos)))*1.05*10)/10, label:"Keluhan sunscreen, ulasan negatif dibanding positif"})
+    + (th.length ? dataTable(["Tema","Ulasan negatif","Ulasan positif","Lift"], th.map(d=>[d.label, pct(d.neg), pct(d.pos), d.liftTxt])) : "");
+  if (th.length){
+    const topLift = th.filter(d=>d.lift!=null && d.neg>=0.05).sort((a,b)=>b.lift-a.lift)[0];
+    const lowLift = th.filter(d=>d.lift!=null && d.lift<1)[0];
+    $("i-theme").innerHTML = `Keluhan terbanyak: <b>${esc(th[0].label.toLowerCase())}</b>, ${pct(th[0].neg,0)} dari ${num(negS.n)} ulasan negatif.` +
+      (topLift ? ` Paling khas sebagai penyebab kecewa: <b>${esc(topLift.label.toLowerCase())}</b> (lift ${topLift.liftTxt}).` : "") +
+      (lowLift ? ` ${esc(lowLift.label)} justru lebih sering dibahas di ulasan positif.` : "") +
+      (negS.n < 200 ? ` Ulasan negatif pada filter ini sedikit, jadi angkanya kurang stabil.` : "");
+  } else $("i-theme").textContent = "";
+
+  // Heatmap tema x jenis kulit (abaikan filter jenis kulit)
+  const skins = [3, 0, 1, 2]; // oily, combination, dry, normal
+  const hs = skins.map(si => ({si, ...sumSun(D.sun.filter(r => r[0]===0 && r[1]===si && inSun(r, s, {ignoreSkin:true})))}));
+  const okCols = hs.filter(c => c.n >= 30);
+  const order = (th.length ? th.map(d=>d.label) : D.themes).slice(0, 7);
+  if (okCols.length){
+    const vals = order.flatMap(t => okCols.map(c => c.t[D.themes.indexOf(t)]/c.n));
+    const vmin = Math.min(...vals), vmx = Math.max(...vals);
+    const ramp = ["#e8f0fb","#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95"];
+    const color = v => ramp[Math.min(ramp.length-1, Math.floor((v-vmin)/((vmx-vmin)||1)*(ramp.length-0.001)))];
+    $("c-heat").innerHTML = `<table class="data heat"><thead><tr><th></th>${okCols.map(c=>`<th${s.skin===c.si?' style="color:var(--data)"':""}>${SKIN_LABEL[D.skins[c.si]]}<small>n = ${num(c.n)}</small></th>`).join("")}</tr></thead><tbody>` +
+      order.map(t => { const ti=D.themes.indexOf(t); return `<tr><td>${esc(t)}</td>${okCols.map(c => { const v=c.t[ti]/c.n, bg=color(v), dark=ramp.indexOf(bg)>=4;
+        return `<td class="cell" style="background:${bg};color:${dark?"#fff":C.ink}" data-tip="<b>${esc(t)}</b><br>Kulit ${esc(SKIN_LABEL[D.skins[c.si]].toLowerCase())}: ${pct(v)}<br>${num(c.t[ti])} dari ${num(c.n)} ulasan negatif">${pct(v,0)}</td>`; }).join("")}</tr>`; }).join("") + `</tbody></table>`;
+    const oily = hs.find(c=>c.si===3), dry = hs.find(c=>c.si===1), greasy = D.themes.indexOf("Berminyak / lengket / berat"), irr = D.themes.indexOf("Iritasi / perih");
+    $("i-heat").innerHTML = (oily.n>=30 && dry.n>=30)
+      ? `Kulit berminyak paling sering mengeluh <b>berminyak</b> (${pct(oily.t[greasy]/oily.n,0)}), kulit kering lebih sering mengeluh <b>iritasi</b> (${pct(dry.t[irr]/dry.n,0)} vs ${pct(oily.t[irr]/oily.n,0)} pada kulit berminyak). Tabel ini tidak memakai filter jenis kulit.`
+      : "Tabel ini tidak memakai filter jenis kulit.";
+  } else { $("c-heat").innerHTML = EMPTY(); $("i-heat").textContent = ""; }
+}
+
+/* ---------- tabel produk ---------- */
+const PROD_COLS = [
+  {k:"brand", l:"Produk"}, {k:"n", l:"Ulasan", num:true}, {k:"rating", l:"Rating", num:true},
+  {k:"neg", l:"Ulasan negatif", num:true}, {k:"rec", l:"Merekomendasikan", num:true}, {k:"issue", l:"Keluhan utama di ulasan negatif"},
+];
+let prodSort = {k:"neg", dir:-1};
+function renderProducts(){
+  const avg = BASE.sunNeg, maxNeg = Math.max(...D.products.map(p=>p.neg));
+  const rows = [...D.products].sort((a,b) => { const x=a[prodSort.k], y=b[prodSort.k]; return (x<y?-1:x>y?1:0)*prodSort.dir; });
+  const head = PROD_COLS.map(c => `<th class="${c.num?"num":""}" data-k="${c.k}" tabindex="0"${prodSort.k===c.k?` aria-sort="${prodSort.dir<0?"descending":"ascending"}"`:""}>${c.l}${prodSort.k===c.k?(prodSort.dir<0?" ↓":" ↑"):""}</th>`).join("");
+  const body = rows.map(p => `<tr>
+    <td><b style="font-weight:600">${esc(p.brand)}</b><span class="prod-name">${esc(p.product)}</span></td>
+    <td class="num">${num(p.n)}</td>
+    <td class="num">${dec(p.rating,2)}</td>
+    <td class="num"><div class="negbar">${pct(p.neg)}<span class="${p.neg>avg?"hi":""}" style="width:${Math.max(2,Math.round(p.neg/maxNeg*70))}px"></span></div></td>
+    <td class="num">${p.rec==null?"–":pct(p.rec)}</td>
+    <td>${p.issue==="-"?"–":`<span class="tag">${esc(p.issue)}</span><small>${pct(p.issue_pct,0)}</small>`}</td>
+  </tr>`).join("");
+  $("t-prod").innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
+  $("t-prod").querySelectorAll("th").forEach(th => {
+    const go = () => { const k=th.dataset.k; prodSort = {k, dir: prodSort.k===k ? -prodSort.dir : (k==="brand"||k==="issue" ? 1 : -1)}; renderProducts(); };
+    th.addEventListener("click", go);
+    th.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
+  });
+}
+
+renderHero();
+render();
+renderProducts();
+let rz; let lastW = window.innerWidth;
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (Math.abs(window.innerWidth - lastW) > 30){ lastW = window.innerWidth; renderHero(); render(); } }, 150); });
+</script>
+</body>
+</html>
